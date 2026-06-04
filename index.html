@@ -810,7 +810,7 @@
             return new Promise((resolve, reject) => {
                 const callbackName = 'jsonp_' + Date.now();
                 const script = document.createElement('script');
-                const timeout = setTimeout(() => { reject(new Error('Timeout')); }, 15000);
+                const timeout = setTimeout(() => { reject(new Error('Timeout')); }, 45000);
                 window[callbackName] = (res) => { clearTimeout(timeout); delete window[callbackName]; document.body.removeChild(script); resolve(res); };
                 script.onerror = () => { clearTimeout(timeout); reject(new Error('Network')); };
                 script.src = `${API_URL}?action=getAllData&token=${API_TOKEN}&callback=${callbackName}&t=${Date.now()}`;
@@ -853,7 +853,7 @@
             renderPengeluaran();
             renderSettings();
             gantiTipeTransaksi();
-        } catch(e) { showToast('Gagal load data', true); }
+        } catch(e) { showToast('Gagal load data: ' + e.message, true); }
     }
 
     function getHargaByKadar(kadar, tipe = 'jual') {
