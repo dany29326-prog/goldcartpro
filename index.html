@@ -1267,7 +1267,8 @@
         let html = `
             <div style="margin-bottom: 24px;">
                 <h4 style="color: var(--text-muted); margin-bottom: 12px;">Harga Dasar Emas</h4>
-                <table class="data-table" style="max-width: 600px;">
+                <div style="overflow-x: auto; width: 100%;">
+                <table class="data-table" style="min-width: 400px; max-width: 600px;">
                     <thead>
                         <tr>
                             <th>Kadar</th>
@@ -1285,15 +1286,16 @@
             html += `
                 <tr>
                     <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><strong>${h.kadar}</strong></td>
-                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><input type="number" id="setting-jual-${index}" value="${jual}" class="form-control" style="max-width: 150px; background: var(--bg-body); border: 1px solid var(--border-color); color: white;"></td>
-                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><input type="number" id="setting-beli-${index}" value="${beli}" class="form-control" style="max-width: 150px; background: var(--bg-body); border: 1px solid var(--border-color); color: white;"></td>
+                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><input type="number" id="setting-jual-${index}" value="${jual}" class="form-control" style="min-width: 90px; max-width: 150px; background: var(--bg-body); border: 1px solid var(--border-color); color: white;"></td>
+                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><input type="number" id="setting-beli-${index}" value="${beli}" class="form-control" style="min-width: 90px; max-width: 150px; background: var(--bg-body); border: 1px solid var(--border-color); color: white;"></td>
                     <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><button class="btn-outline-gold" style="padding: 6px 12px; font-size: 12px;" onclick="simpanHargaToko('${h.kadar}', ${index})">Simpan</button></td>
                 </tr>
             `;
         });
         
         html += `
-
+                    </tbody>
+                </table>
                 </div>
                 <div style="margin-top: 32px;">
                     <h4 style="color: var(--text-muted); margin-bottom: 12px;">🎨 Tema Tampilan</h4>
