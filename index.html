@@ -803,6 +803,7 @@
                 const timeout = setTimeout(() => { reject(new Error('Timeout')); }, 45000);
                 window[callbackName] = (res) => { clearTimeout(timeout); delete window[callbackName]; document.body.removeChild(script); resolve(res); };
                 script.onerror = () => { clearTimeout(timeout); reject(new Error('Network')); };
+                script.crossOrigin = "anonymous";
                 script.src = `${API_URL}?action=getAllData&token=${API_TOKEN}&callback=${callbackName}&t=${Date.now()}`;
                 document.body.appendChild(script);
             });
