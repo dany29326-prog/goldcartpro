@@ -665,7 +665,7 @@
                         <option value="transfer">Transfer (Lunas)</option>
                     </select>
                 </div>
-                <button class="btn-gold" style="width: 100%;" onclick="prosesTransaksi()"><i class="fas fa-check-circle"></i> PROSES TRANSAKSI</button>
+                <button id="btn-proses-trx" class="btn-gold" style="width: 100%;" onclick="prosesTransaksi()"><i class="fas fa-check-circle"></i> PROSES TRANSAKSI</button>
             </div>
         </div>
     </div>
@@ -930,13 +930,25 @@
         
         const trx = { id: 'TRX_' + Date.now(), jenis: tipe, tanggal: getLocalDateString(), waktu: getLocalDatetimeString(), pelanggan_nama: nama, wa, items, total, metode, status: 'lunas', uang_muka: total, sisa_tagihan: 0 };
         
-        await callAPI('saveTransaction', { action: 'saveTransaction', transaction: trx });
-        showToast('✅ Transaksi ' + tipe.toUpperCase() + ' berhasil disimpan!');
-        loadAllData();
-        resetTransaksiForm();
-        
-        if(tipe === 'jual') {
-            tampilkanNota(trx);
+        const btn = document.getElementById('btn-proses-trx');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sedang Memproses...';
+        showToast('Memproses transaksi...');
+
+        try {
+            await callAPI('saveTransaction', { action: 'saveTransaction', transaction: trx });
+            showToast('✅ Transaksi ' + tipe.toUpperCase() + ' berhasil disimpan!');
+            loadAllData();
+            resetTransaksiForm();
+            
+            if(tipe === 'jual') {
+                tampilkanNota(trx);
+            }
+        } catch (error) {
+            showToast('❌ Gagal memproses: ' + error.message, true);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> PROSES TRANSAKSI';
         }
     }
 
