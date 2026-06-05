@@ -1322,8 +1322,7 @@
         localStorage.setItem('goldcart_tema', tema);
         showToast('🎨 Tema berhasil diubah!');
         
-        const settingsArr = Object.keys(DB.settings).map(k => [k, DB.settings[k]]);
-        callAPI('updateSettings', { action: 'updateSettings', settings: settingsArr }).catch(e => console.log('Gagal sync tema'));
+        callAPI('updateSettings', { action: 'updateSettings', settings: DB.settings }).catch(e => console.log('Gagal sync tema'));
     };
 
     function showPage(page) {
@@ -1356,8 +1355,7 @@
         
         try {
             DB.settings.nama_toko = val;
-            const settingsArr = Object.keys(DB.settings).map(k => [k, DB.settings[k]]);
-            await callAPI('updateSettings', { action: 'updateSettings', settings: settingsArr });
+            await callAPI('updateSettings', { action: 'updateSettings', settings: DB.settings });
             showToast('✅ Nama toko berhasil diubah');
             document.getElementById('app-nama-toko').innerText = val;
         } catch (e) {
@@ -1378,8 +1376,7 @@
         
         try {
             DB.settings.saldo_emas = saldo;
-            const settingsArr = Object.keys(DB.settings).map(k => [k, DB.settings[k]]);
-            await callAPI('updateSettings', { action: 'updateSettings', settings: settingsArr });
+            await callAPI('updateSettings', { action: 'updateSettings', settings: DB.settings });
             showToast('✅ Saldo Emas berhasil disimpan!');
             renderDashboard(); // Refresh dash-stok
         } catch(e) {
