@@ -1414,7 +1414,35 @@
     window.kirimWA = function(wa, id, nama, total, rincian) {
         if(!wa) return showToast('Nomor WhatsApp pelanggan kosong!', true);
         if(wa.startsWith('0')) wa = '62' + wa.substring(1);
-        let text = `Halo Kak ${nama},\nTerima kasih telah berbelanja di *${DB.settings.nama_toko || 'Toko Emas'}* 💎\n\nBerikut rincian transaksi Kakak:\n*No. Nota:* ${id}\n*Rincian:* ${rincian}\n*Total:* ${formatRupiah(total)}\n\n*Simpan pesan ini sebagai bukti pembelian (Nota Digital).* Jika ada pertanyaan silakan balas pesan ini.\nSemoga harinya menyenangkan!`;
+        
+        const namaToko = DB.settings.nama_toko || 'Toko Emas';
+        const tanggalTrx = getLocalDateString();
+        
+        let text = `Yth. Bpk/Ibu *${nama}*,
+
+Terima kasih atas kepercayaan Anda bertransaksi di *${namaToko}*. 💎
+
+Berikut adalah rincian E-Nota (Nota Elektronik) Anda:
+
+📝 *INFORMASI TRANSAKSI*
+-----------------------------------
+🧾 *No. Nota:* ${id}
+📅 *Tanggal:* ${tanggalTrx}
+
+📦 *RINCIAN BARANG*
+${rincian}
+
+💰 *TOTAL PEMBAYARAN:* 
+*${formatRupiah(total)}*
+-----------------------------------
+
+_Pesan ini merupakan bukti transaksi resmi yang sah dan diterbitkan secara otomatis oleh sistem komputer. Mohon simpan pesan ini dengan baik._
+
+Jika ada pertanyaan lebih lanjut, Anda dapat langsung membalas pesan ini.
+
+Hormat kami,
+*Manajemen ${namaToko}*`;
+
         window.open(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`, '_blank');
     };
 
