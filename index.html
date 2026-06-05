@@ -947,9 +947,7 @@
             loadAllData();
             resetTransaksiForm();
             
-            if(tipe === 'jual') {
-                tampilkanNota(trx);
-            }
+            tampilkanNota(trx);
         } catch (error) {
             showToast('❌ Gagal memproses: ' + error.message, true);
         } finally {
@@ -1088,15 +1086,15 @@
             document.getElementById('pelanggan-list').innerHTML = '<div style="color:var(--text-muted); text-align:center; padding: 20px;">Belum ada data pelanggan.</div>';
             return;
         }
-        let html = '<table class="data-table" style="min-width: 700px;"><thead><tr><th>ID</th><th>Nama Pelanggan</th><th>No. WhatsApp</th><th>Total Belanja (Rp)</th><th>Terakhir Transaksi</th></tr></thead><tbody>';
-        // Urutkan berdasarkan total belanja tertinggi
-        [...DB.pelanggan].sort((a,b) => b[4] - a[4]).forEach(p => {
+        let html = '<table class="data-table" style="min-width: 700px;"><thead><tr><th>ID</th><th>Nama Pelanggan</th><th>No. WhatsApp</th><th>Total Transaksi (Rp)</th><th>Terakhir Transaksi</th></tr></thead><tbody>';
+        // Urutkan berdasarkan total transaksi (beli + jual) tertinggi
+        [...DB.pelanggan].sort((a,b) => (Number(b.total_jual || 0) + Number(b.total_beli || 0)) - (Number(a.total_jual || 0) + Number(a.total_beli || 0))).forEach(p => {
             html += `<tr>
-                <td style="color:var(--text-muted); font-size: 12px;">${p[0]}</td>
-                <td style="font-weight: 500; color: var(--accent-gold);">${p[1]}</td>
-                <td>${p[2] || '-'}</td>
-                <td style="font-weight: bold;">${formatRupiah(p[4])}</td>
-                <td>${p[7] || p[8] || '-'}</td>
+                <td style="color:var(--text-muted); font-size: 12px;">${p.id}</td>
+                <td style="font-weight: 500; color: var(--accent-gold);">${p.nama}</td>
+                <td>${p.wa || '-'}</td>
+                <td style="font-weight: bold;">${formatRupiah(Number(p.total_jual || 0) + Number(p.total_beli || 0))}</td>
+                <td>${p.terakhir_transaksi || '-'}</td>
             </tr>`;
         });
         html += '</tbody></table>';
@@ -1415,8 +1413,8 @@
                         <span>${formatRupiah(detail.subtotal)}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-top: 4px; color: var(--text-muted);" class="nota-text">
-                        <span>Ongkos Bikin</span>
-                        <span>${formatRupiah(detail.upah)}</span>
+                        <span>${trx.jenis === 'jual' ? 'Ongkos Bikin' : 'Potongan'}</span>
+                        <span>${formatRupiah(trx.jenis === 'jual' ? (detail.upah || 0) : (detail.potongan || 0))}</span>
                     </div>
                 </div>
                 
