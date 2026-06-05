@@ -1418,30 +1418,24 @@
         const namaToko = DB.settings.nama_toko || 'Toko Emas';
         const tanggalTrx = getLocalDateString();
         
-        let text = `Yth. Bpk/Ibu *${nama}*,
+        let text = `Halo Kak *${nama}*! 👋
 
-Terima kasih atas kepercayaan Anda bertransaksi di *${namaToko}*. 💎
+Terima kasih banyak sudah berbelanja perhiasan di *${namaToko}*. 💎
+Ini adalah Nota Digital Kakak sebagai bukti transaksi yang sah:
 
-Berikut adalah rincian E-Nota (Nota Elektronik) Anda:
-
-📝 *INFORMASI TRANSAKSI*
------------------------------------
-🧾 *No. Nota:* ${id}
+*Detail Transaksi:*
+🏷️ *No. Nota:* ${id}
 📅 *Tanggal:* ${tanggalTrx}
-
-📦 *RINCIAN BARANG*
+🛍️ *Barang:* 
 ${rincian}
 
-💰 *TOTAL PEMBAYARAN:* 
-*${formatRupiah(total)}*
------------------------------------
+💳 *TOTAL DIBAYAR: ${formatRupiah(total)}*
 
-_Pesan ini merupakan bukti transaksi resmi yang sah dan diterbitkan secara otomatis oleh sistem komputer. Mohon simpan pesan ini dengan baik._
+_Mohon simpan pesan ini baik-baik ya Kak._ Jika ada keluhan atau ingin tanya-tanya perhiasan model baru, Kakak bisa langsung balas chat ini.
+Semoga perhiasannya awet dan harinya menyenangkan! ✨
 
-Jika ada pertanyaan lebih lanjut, Anda dapat langsung membalas pesan ini.
-
-Hormat kami,
-*Manajemen ${namaToko}*`;
+Salam hangat,
+*Tim ${namaToko}*`;
 
         window.open(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`, '_blank');
     };
