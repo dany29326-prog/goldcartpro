@@ -476,7 +476,7 @@
         <div class="logo">
             <div class="logo-icon"><i class="fas fa-gem"></i></div>
             <div class="logo-text">
-                <h1>GoldCart Pro</h1>
+                <h1 id="app-nama-toko">GoldCart Pro</h1>
                 <p>Toko Mas & Perhiasan</p>
             </div>
         </div>
@@ -761,7 +761,13 @@
         <div class="card" style="margin-top: 20px;">
             <h3 style="font-size: 16px;">⚙️ Data Pengaturan</h3>
             <div style="margin: 16px 0 24px 0;">
-                <label>⚖️ Saldo Awal Brankas Emas (Gram)</label>
+                <label>🏷️ Nama Toko</label>
+                <div style="display: flex; gap: 12px; max-width: 300px; margin-bottom: 24px;">
+                    <input type="text" id="setting-nama-toko" placeholder="Toko Mas Abadi" value="">
+                    <button class="btn-gold" style="white-space: nowrap;" onclick="simpanNamaToko(event)">Simpan</button>
+                </div>
+
+                <label>💰 Saldo Awal Brankas Emas (Gram)</label>
                 <div style="display: flex; gap: 12px; max-width: 300px;">
                     <input type="number" id="setting-saldo-emas" placeholder="Total stok awal" value="0">
                     <button class="btn-gold" style="white-space: nowrap;" onclick="simpanSaldoEmas(event)">Simpan Saldo</button>
@@ -1268,6 +1274,8 @@
 
     function renderSettings() { 
         document.getElementById('setting-saldo-emas').value = DB.settings.saldo_emas || 0;
+        document.getElementById('setting-nama-toko').value = DB.settings.nama_toko || 'GoldCart Pro';
+        document.getElementById('app-nama-toko').innerText = DB.settings.nama_toko || 'GoldCart Pro';
         let html = `
             <div style="margin-bottom: 24px;">
                 <h4 style="color: var(--text-muted); margin-bottom: 12px;">Harga Dasar Emas</h4>
@@ -1336,6 +1344,29 @@
         if(window.innerWidth <= 992) { document.getElementById('sidebar').classList.remove('show'); }
     }
     function toggleSidebar() { document.getElementById('sidebar').classList.toggle('show'); }
+
+    window.simpanNamaToko = async function(event) {
+        const btn = event.target;
+        const val = document.getElementById('setting-nama-toko').value.trim();
+        if(!val) return showToast('Nama toko tidak boleh kosong!', true);
+        const origText = btn.innerText;
+        
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+        
+        try {
+            DB.settings.nama_toko = val;
+            const settingsArr = Object.keys(DB.settings).map(k => [k, DB.settings[k]]);
+            await callAPI('updateSettings', { action: 'updateSettings', settings: settingsArr });
+            showToast('✅ Nama toko berhasil diubah');
+            document.getElementById('app-nama-toko').innerText = val;
+        } catch (e) {
+            showToast('❌ Gagal menyimpan: ' + e.message, true);
+        } finally {
+            btn.innerHTML = origText;
+            btn.disabled = false;
+        }
+    };
 
     window.simpanSaldoEmas = async function(event) {
         const btn = event.target;
