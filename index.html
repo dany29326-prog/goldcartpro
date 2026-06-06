@@ -644,7 +644,7 @@
                     </div>
                 </div>
             </div>
-            <div style="background: linear-gradient(135deg, #1A1D24, var(--bg-card)); border-radius: 20px; padding: 20px;">
+            <div style="background: #1E3A8A; color: white; border-radius: 20px; padding: 20px; box-shadow: 0 8px 16px rgba(30, 58, 138, 0.15);">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                     <span id="label-harga-gram">Harga Emas / Gram:</span>
                     <span id="trx-harga-gram-tampil" style="font-weight: bold; color: var(--accent-gold);">Rp0</span>
@@ -1098,7 +1098,7 @@
             document.getElementById('pelanggan-list').innerHTML = '<div style="color:var(--text-muted); text-align:center; padding: 20px;">Belum ada data pelanggan.</div>';
             return;
         }
-        let html = '<table class="data-table" style="min-width: 700px;"><thead><tr><th>ID</th><th>Nama Pelanggan</th><th>No. WhatsApp</th><th>Total Transaksi (Rp)</th><th>Terakhir Transaksi</th></tr></thead><tbody>';
+        let html = '<div style="overflow-x: auto; width: 100%;"><table class="data-table" style="min-width: 700px;"><thead><tr><th>ID</th><th>Nama Pelanggan</th><th>No. WhatsApp</th><th>Total Transaksi (Rp)</th><th>Terakhir Transaksi</th></tr></thead><tbody>';
         // Urutkan berdasarkan total transaksi (beli + jual) tertinggi
         [...DB.pelanggan].sort((a,b) => (Number(b.total_jual || 0) + Number(b.total_beli || 0)) - (Number(a.total_jual || 0) + Number(a.total_beli || 0))).forEach(p => {
             html += `<tr>
@@ -1109,7 +1109,7 @@
                 <td>${p.terakhir_transaksi || '-'}</td>
             </tr>`;
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
         document.getElementById('pelanggan-list').innerHTML = html;
     }
     let laporanCurrentPage = 1;
@@ -1308,8 +1308,8 @@
             html += `
                 <tr>
                     <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><strong>${h.kadar}</strong></td>
-                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><input type="number" id="setting-jual-${index}" value="${jual}" class="form-control" style="min-width: 90px; max-width: 150px; background: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-main);"></td>
-                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><input type="number" id="setting-beli-${index}" value="${beli}" class="form-control" style="min-width: 90px; max-width: 150px; background: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-main);"></td>
+                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><input type="number" id="setting-jual-${index}" value="${jual}" class="form-control" style="min-width: 90px; max-width: 150px; background: var(--bg-body); border: 1px solid var(--border-color); color: #000000; font-weight: bold;"></td>
+                    <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><input type="number" id="setting-beli-${index}" value="${beli}" class="form-control" style="min-width: 90px; max-width: 150px; background: var(--bg-body); border: 1px solid var(--border-color); color: #000000; font-weight: bold;"></td>
                     <td style="padding: 12px; border-bottom: 1px solid var(--border-color);"><button class="btn-outline-gold" style="padding: 6px 12px; font-size: 12px;" onclick="simpanHargaToko('${h.kadar}', ${index})">Simpan</button></td>
                 </tr>
             `;
