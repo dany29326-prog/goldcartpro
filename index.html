@@ -1165,7 +1165,7 @@
         const startIndex = (laporanCurrentPage - 1) * LAPORAN_PER_PAGE;
         const pageData = allData.slice(startIndex, startIndex + LAPORAN_PER_PAGE);
 
-        let html = '<table class="data-table" style="min-width: 700px;"><thead><tr><th>Tanggal</th><th>Jenis</th><th>Pelanggan</th><th>Ringkasan Emas</th><th>Total (Rp)</th><th>Status</th></tr></thead><tbody>';
+        let html = '<div style="overflow-x: auto; width: 100%;"><table class="data-table" style="min-width: 700px;"><thead><tr><th>Tanggal</th><th>Jenis</th><th>Pelanggan</th><th>Ringkasan Emas</th><th>Total (Rp)</th><th>Status</th></tr></thead><tbody>';
         
         pageData.forEach(t => {
             let detail = '-';
@@ -1189,7 +1189,7 @@
                 <td>${badgeStatus}</td>
             </tr>`;
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         if(totalPages > 1) {
             html += `
@@ -1212,7 +1212,7 @@
             document.getElementById('pengeluaran-list').innerHTML = '<div style="color:var(--text-muted); text-align:center; padding: 20px;">Belum ada catatan pengeluaran.</div>';
             return;
         }
-        let html = '<table class="data-table" style="min-width: 600px;"><thead><tr><th>Tanggal</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Aksi</th></tr></thead><tbody>';
+        let html = '<div style="overflow-x: auto; width: 100%;"><table class="data-table" style="min-width: 600px;"><thead><tr><th>Tanggal</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Aksi</th></tr></thead><tbody>';
         [...DB.pengeluaran].reverse().forEach(p => {
             html += `<tr>
                 <td>${p.tanggal}</td>
@@ -1222,7 +1222,7 @@
                 <td><button class="btn-outline-gold" style="padding:4px 8px; font-size:12px; color:#F05C5C; border-color:#F05C5C;" onclick="hapusPengeluaran('${p.id}')"><i class="fas fa-trash"></i></button></td>
             </tr>`;
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
         document.getElementById('pengeluaran-list').innerHTML = html;
     };
 
