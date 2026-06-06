@@ -184,8 +184,20 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, #1A1D24 100%);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: #1E3A8A; /* Solid Sapphire Blue */
+            border: none;
+            box-shadow: 0 8px 16px rgba(30, 58, 138, 0.15);
+        }
+        .stat-card span[style*="color: var(--text-muted)"] {
+            color: #BFDBFE !important;
+        }
+        .stat-card .label-periode, .stat-card div[style*="color: #7E8493"] {
+            color: #93C5FD !important;
+        }
+        .stat-card .stat-value {
+            background: none !important;
+            -webkit-text-fill-color: white !important;
+            color: white !important;
         }
 
         .stat-value {
